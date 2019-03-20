@@ -7,6 +7,7 @@ module.exports = {
         const email = req.query.email
         console.log(req.query)
 
+        // it would be a good idea to only do these if the query exists, most of the time these operations are wasting processing time/power
         const correctEmails = userData.filter(user => user.email === email)
         const correctAges = userData.filter(user => user.age < age)
         const correctFavs = userData.filter(user => user.favorites.includes(fav))
@@ -69,6 +70,7 @@ module.exports = {
 
         const index = userData.findIndex(element => element.id === id)
 
+        //try using the spread operator to shorten this up a bunch
         userData[index].first_name = first_name || userData[index].first_name,
             userData[index].last_name = last_name || userData[index].last_name,
             userData[index].email = email || userData[index].email,
@@ -86,6 +88,7 @@ module.exports = {
     addUser: (req, res) => {
         const newId = userData[userData.length - 1].id + 1
 
+        // it really is not needed to destrucure off an object just to but it back into an object, would be better to just add an id to the req. body
         const { first_name, last_name, email, gender, language, age, city, state, type, favorites } = req.body
         const newObj = { id: newId, first_name, last_name, email, gender, language, age, city, state, type, favorites }
 
@@ -97,6 +100,7 @@ module.exports = {
     deleteUser: (req, res) => {
         const id = +req.params.id
         console.log(id)
+        //you could combine the two lines below into one
         const newArr = userData.filter(user => user.id !== id)
         userData = newArr
         res.status(200).send(userData)
